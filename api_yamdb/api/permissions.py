@@ -11,10 +11,7 @@ class IsAdminOrReadOnly(BasePermission):
     """
 
     def has_permission(self, request, view):
-        """
-        Проверяет, что пользователь является
-        администратором, либо метод безопасен
-        """
+        """Проверяет разрешение для доступа к представлению"""
         return (
             request.method in SAFE_METHODS or (
                 request.user.is_authenticated and
@@ -30,10 +27,7 @@ class IsAdminModeratorAuthor(BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        """
-        Проверяет, что пользователь является администратором,
-        модератором, автором контента, либо метод безопасен
-        """
+        """Проверяет разрешение для доступа к конкретному объекту"""
         return (
             request.method in SAFE_METHODS
             or obj.author == request.user
