@@ -1,10 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from reviews.constants import (
-    GENRE_LENGTH,SLUG_LENGTH,
-    SYMBOLS_LENGTH,TITLE_LENGTH,
-    MIN_VALUE,MAX_VALUE,
-    MESSAGE_MIN_VALUE,MESSAGE_MAX_VALUE
+    GENRE_LENGTH,
+    SLUG_LENGTH,
+    SYMBOLS_LENGTH,
+    TITLE_LENGTH,
+    MIN_VALUE,
+    MAX_VALUE,
+    MESSAGE_MIN_VALUE,
+    MESSAGE_MAX_VALUE
 )
 
 User = get_user_model()

@@ -3,9 +3,13 @@ from django.db import models
 
 
 from users.constants import (
-    USER, MODERATOR, ADMIN,
-    ROLES, USERNAME_LENGTH,
-    EMAIL_LENGTH, CODE_LENGTH
+    USER,
+    MODERATOR,
+    ADMIN,
+    ROLES,
+    USERNAME_LENGTH,
+    EMAIL_LENGTH,
+    CODE_LENGTH
 )
 from users.validators import validate_username
 
