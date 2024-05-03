@@ -11,7 +11,7 @@ from users.validators import validate_username
 
 
 class CustomUser(AbstractUser):
-    """Кастомная модель пользователя."""
+    """Кастомная модель Пользователей."""
 
     username = models.CharField(
         'Никнейм',
@@ -58,8 +58,10 @@ class CustomUser(AbstractUser):
 
     @property
     def is_moderator(self):
+        """Проверяем является ли пользователь модератором"""
         return self.role == MODERATOR
 
     @property
     def is_admin(self):
+        """Проверяем является ли пользователь админом или суперюзером"""
         return self.role == ADMIN or self.is_superuser

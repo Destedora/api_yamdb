@@ -29,21 +29,21 @@ from reviews.constants import ALLOW_METHODS
 
 
 class CategoryViewSet(BaseViewSet):
-    """Вьюсет модели Категорий."""
+    """Вьюсет для модели Категорий"""
 
     queryset = Category.objects.all().order_by('name')
     serializer_class = CategorySerializer
 
 
 class GenreViewSet(BaseViewSet):
-    """Вьюсет модели Жанров."""
+    """Вьюсет для модели Жанров"""
 
     queryset = Genre.objects.all().order_by('name')
     serializer_class = GenreSerializer
 
 
 class TitleViewSet(ModelViewSet):
-    """Вьюсет модели Произведений."""
+    """Вьюсет для модели Произведений"""
 
     queryset = Title.objects.all().annotate(
         rating=Avg('reviews__score')
