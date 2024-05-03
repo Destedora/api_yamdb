@@ -35,8 +35,8 @@ class IsAdminModeratorAuthor(BasePermission):
         модератором, автором контента, либо метод безопасен
         """
         return (
-            request.method in SAFE_METHODS
-            or obj.author == request.user
-            or request.user.is_admin
-            or request.user.is_moderator
+            request.method in SAFE_METHODS or
+            obj.author == request.user or
+            request.user.is_admin or
+            request.user.is_moderator
         )

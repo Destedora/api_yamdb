@@ -12,9 +12,3 @@ def validate_year(value):
             params={'value': value},
         )
     return value
-
-
-
-
-
-
