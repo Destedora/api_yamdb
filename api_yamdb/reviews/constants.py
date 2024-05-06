@@ -17,7 +17,6 @@ USERS = 'users.csv'
 CATEGORY = 'category.csv'
 GENRE = 'genre.csv'
 TITLE = 'titles.csv'
-GENRE_TITLE = 'genre_title.csv'
 REVIEW = 'review.csv'
 COMMENTS = 'comments.csv'
 

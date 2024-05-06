@@ -9,15 +9,19 @@ from django.core.management.base import (
 from users.models import User
 
 from reviews.costants import (
-    PATH, UTF, USERS,
-    CATEGORY, GENRE, TITLE,
-    GENRE_TITLE, REVIEW, COMMENTS
+    PATH,
+    UTF,
+    USERS,
+    CATEGORY,
+    GENRE,
+    TITLE,
+    REVIEW,
+    COMMENTS
 )
 from reviews.models import (
     Category,
     Genre,
     Title,
-    GenreTitle,
     Review,
     Comment
 )
@@ -89,23 +93,6 @@ class Command(BaseCommand):
             Title.objects.bulk_create(objs)
 
     @staticmethod
-    def import_genre_title():
-        """
-        Импорт связей id между жанром и произведением
-        из CSV-файла в базу данных
-        """
-        with open(f'{PATH}{GENRE_TITLE}', 'r', encoding=UTF) as file_csv:
-            objs = [
-                GenreTitle(
-                    id=row['id'],
-                    genre_id=row['genre_id'],
-                    title_id=row['title_id'],
-                )
-                for row in csv.DictReader(file_csv)
-            ]
-            GenreTitle.objects.bulk_create(objs)
-
-    @staticmethod
     def import_review():
         """Импорт отзывов из CSV-файла в базу данных"""
         with open(f'{PATH}{REVIEW}', 'r', encoding=UTF) as file_csv:
@@ -147,7 +134,6 @@ class Command(BaseCommand):
             self.import_titles()
             self.import_review()
             self.import_comments()
-            self.import_genre_title()
         except Exception as error:
             raise CommandError(f'Невозможно открыть файл: {error}')
         self.stdout.write(
