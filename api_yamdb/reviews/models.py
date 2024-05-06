@@ -35,7 +35,8 @@ class BaseCategoryGenre(models.Model):
         max_length=SLUG_LENGTH,
         unique=True,
         help_text='Идентификатор страницы для URL; разрешены символы '
-                  'латиницы, цифры, дефис и подчёркивание.'
+                  'латиницы, цифры, дефис и подчёркивание.',
+        db_index=True
     )
 
     class Meta:
@@ -63,7 +64,8 @@ class BaseReviewComment(models.Model):
     pub_date = models.DateTimeField(
         'Дата публикации',
         help_text='Дата публикации отзыва/комментария',
-        auto_now_add=True
+        auto_now_add=True,
+        db_index=True
     )
 
     class Meta:
@@ -148,8 +150,12 @@ class Review(BaseReviewComment):
         verbose_name='Рейтинг',
         help_text=f'Укажите рейтинг произведения '
                   f'от {MIN_VALUE} до {MAX_VALUE}',
-        validators=(MinValueValidator(MIN_VALUE, message=MESSAGE_MIN_VALUE),
-                    MaxValueValidator(MAX_VALUE, message=MESSAGE_MAX_VALUE)))
+        validators=(
+            MinValueValidator(MIN_VALUE, message=MESSAGE_MIN_VALUE),
+            MaxValueValidator(MAX_VALUE, message=MESSAGE_MAX_VALUE)
+        ),
+        db_index=True
+    )
 
     class Meta(BaseReviewComment.Meta):
         verbose_name = 'Отзыв'
