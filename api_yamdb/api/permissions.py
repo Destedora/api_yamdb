@@ -1,10 +1,11 @@
 from rest_framework.permissions import (
     SAFE_METHODS,
-    BasePermission
+    IsAuthenticatedOrReadOnly
 )
+from users.permissions import IsAdmin
 
 
-class IsAdminOrReadOnly(BasePermission):
+class IsAdminOrReadOnly(IsAdmin):
     """
     Предоставляет полный доступ администратору,
     остальным пользователям - только чтение.
@@ -16,10 +17,10 @@ class IsAdminOrReadOnly(BasePermission):
         либо метод безопасен.
         """
         return (request.method in SAFE_METHODS
-                or request.user.is_authenticated and request.user.is_admin)
+                or super().has_permission(request, view))
 
 
-class IsAdminModeratorAuthor(BasePermission):
+class IsAdminModeratorAuthor(IsAuthenticatedOrReadOnly):
     """
     Предоставляет полный доступ администратору, модератору,
     автору, остальным пользователям - только чтение.

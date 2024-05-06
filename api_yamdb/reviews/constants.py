@@ -25,5 +25,5 @@ MESSAGE_DUPLICATE_REVIEW = ('Повторный отзыв на данное '
                             'произведение невозможен!')
 
 ALLOW_METHODS = ('get', 'post', 'patch', 'delete')
-MESSAGE_NEW_CODE = 'Новый код отправлен!'
 MESSAGE_BAD_CODE = 'Неверный код подтверждения!'
+MESSAGE_NEW_CODE = 'Новый код отправлен!'

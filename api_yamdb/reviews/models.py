@@ -19,7 +19,9 @@ from reviews.validators import validate_year
 
 
 class Category(BaseCategoryGenre):
-    """Модель Категорий"""
+    """
+    Модель категорий.
+    """
 
     class Meta(BaseCategoryGenre.Meta):
         verbose_name = 'Категория'
@@ -27,7 +29,9 @@ class Category(BaseCategoryGenre):
 
 
 class Genre(BaseCategoryGenre):
-    """Модель Жанров"""
+    """
+    Модель жанров.
+    """
 
     class Meta(BaseCategoryGenre.Meta):
         verbose_name = 'Жанр'
@@ -35,7 +39,9 @@ class Genre(BaseCategoryGenre):
 
 
 class Title(models.Model):
-    """Модель Произведений"""
+    """
+    Модель произведений.
+    """
 
     name = models.CharField(
         'Название',
@@ -73,7 +79,9 @@ class Title(models.Model):
 
 
 class GenreTitle(models.Model):
-    """Модель для связи id Произведений и Жанров"""
+    """
+    Модель для связи id произведений и жанров.
+    """
 
     genre = models.ForeignKey(
         Genre,
@@ -100,7 +108,9 @@ class GenreTitle(models.Model):
 
 
 class Review(BaseReviewComment):
-    """Модель Отзывов"""
+    """
+    Модель отзывов.
+    """
 
     title = models.ForeignKey(
         Title,
@@ -134,7 +144,9 @@ class Review(BaseReviewComment):
 
 
 class Comment(BaseReviewComment):
-    """Модель Комментариев"""
+    """
+    Модель комментариев.
+    """
 
     review = models.ForeignKey(
         Review,

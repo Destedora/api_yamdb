@@ -1,11 +1,7 @@
-USER = 'user'
-MODERATOR = 'moderator'
-ADMIN = 'admin'
-ROLES = (
-    (USER, 'Пользователь'),
-    (MODERATOR, 'Модератор'),
-    (ADMIN, 'Администратор'),
-)
+ROLE_USER = 'user'
+ROLE_MODERATOR = 'moderator'
+ROLE_ADMIN = 'admin'
+
 USERNAME_LENGTH = 150
 EMAIL_LENGTH = 254
 CODE_LENGTH = 254

@@ -10,7 +10,9 @@ User = get_user_model()
 
 
 class BaseCategoryGenre(models.Model):
-    """Базовая модель для Категорий и Жанров"""
+    """
+    Базовая модель для категорий и жанров.
+    """
 
     name = models.CharField(
         'Название',
@@ -33,7 +35,9 @@ class BaseCategoryGenre(models.Model):
 
 
 class BaseReviewComment(models.Model):
-    """Базовая модель для Отзывов и Комментариев"""
+    """
+    Базовая модель для отзывов и комментариев.
+    """
 
     text = models.TextField(
         'Текст',

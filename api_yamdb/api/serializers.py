@@ -13,7 +13,9 @@ from reviews.constants import MESSAGE_DUPLICATE_REVIEW
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    """Сериализатор Категорий"""
+    """
+    Сериализатор категорий.
+    """
 
     class Meta:
         model = Category
@@ -22,7 +24,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class GenreSerializer(serializers.ModelSerializer):
-    """Сериализатор Жанров"""
+    """
+    Сериализатор жанров.
+    """
 
     class Meta:
         model = Genre
@@ -31,7 +35,9 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class GetTitleSerializer(serializers.ModelSerializer):
-    """Сериализатор Произведений для чтения"""
+    """
+    Сериализатор произведений для чтения.
+    """
 
     category = CategorySerializer(read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
@@ -51,7 +57,9 @@ class GetTitleSerializer(serializers.ModelSerializer):
 
 
 class TitleSerializer(serializers.ModelSerializer):
-    """Сериализатор Произведений"""
+    """
+    Сериализатор произведений.
+    """
 
     category = serializers.SlugRelatedField(
         slug_field='slug',
@@ -77,17 +85,23 @@ class TitleSerializer(serializers.ModelSerializer):
         )
 
     def to_representation(self, instance):
-        """Передаёт данные в сериализатор для чтения"""
+        """
+        Передаёт данные в сериализатор для чтения.
+        """
         return GetTitleSerializer(instance).data
 
     @staticmethod
     def validate_year(value):
-        """Проверяет, что заданный год не больше текущего"""
+        """
+        Проверяет, что заданный год не больше текущего.
+        """
         return validate_year(value)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    """Сериализатор Отзывов"""
+    """
+    Сериализатор отзывов.
+    """
 
     author = serializers.SlugRelatedField(
         slug_field='username',
@@ -101,7 +115,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     def validate(self, data):
         """
         Проверяет, что пользователь не пытается
-        добавить повторный отзыв
+        добавить повторный отзыв.
         """
         request = self.context.get('request')
         if request.method == 'POST':
@@ -116,7 +130,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """Сериализатор Комментариев"""
+    """
+    Сериализатор комментариев.
+    """
 
     author = serializers.SlugRelatedField(
         slug_field='username',

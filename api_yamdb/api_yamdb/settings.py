@@ -2,7 +2,7 @@ from datetime import timedelta
 from pathlib import Path
 
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'users.User'
 
 PAGE_PAGINATION_NUMBER = 5
 

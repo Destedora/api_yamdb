@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from users.models import CustomUser
+from users.models import User
 from users.constants import (
     CODE_LENGTH,
     USERNAME_LENGTH,
@@ -13,10 +13,12 @@ from users.utils import send_code
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Сериализатор для собственной модели Пользователей"""
+    """
+    Сериализатор для собственной модели пользователей.
+    """
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = (
             'username', 'email',
             'first_name', 'last_name',
@@ -25,7 +27,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    """Сериализатор для регистрации Пользователей"""
+    """
+    Сериализатор для регистрации пользователей.
+    """
 
     username = serializers.CharField(
         max_length=USERNAME_LENGTH,
@@ -41,15 +45,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = ('email', 'username')
 
     def create(self, validated_data):
         """
         При создании пользователя отправляет
-        код на адрес электронной почты
+        код на адрес электронной почты.
         """
-        user = CustomUser.objects.create(
+        user = User.objects.create(
             username=validated_data.get('username'),
             email=validated_data.get('email')
         )
@@ -57,16 +61,20 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
     def validate(self, data):
-        """Проверяет данные перед созданием нового пользователя"""
-        if CustomUser.objects.filter(username=data.get('username')):
+        """
+        Проверяет данные перед созданием нового пользователя.
+        """
+        if User.objects.filter(username=data.get('username')):
             raise serializers.ValidationError(MESSAGE_DUPLICATE_USERNAME)
-        elif CustomUser.objects.filter(email=data.get('email')):
+        elif User.objects.filter(email=data.get('email')):
             raise serializers.ValidationError(MESSAGE_DUPLICATE_EMAIL)
         return data
 
 
 class GetTokenSerializer(serializers.Serializer):
-    """Сериализатор для получения Токена"""
+    """
+    Сериализатор для получения токена.
+    """
 
     username = serializers.CharField(
         max_length=USERNAME_LENGTH,
@@ -78,5 +86,6 @@ class GetTokenSerializer(serializers.Serializer):
     )
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = ('username', 'confirmation_code')
+

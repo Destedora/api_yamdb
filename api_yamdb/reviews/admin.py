@@ -12,7 +12,7 @@ admin.site.empty_value_display = 'Не задано'
 class GenreTitleInline(admin.StackedInline):
     """
     Отображение и редактирование связанных объектов
-    GenreTitle в административном интерфейсе
+    GenreTitle в административном интерфейсе.
     """
 
     model = GenreTitle
@@ -21,26 +21,32 @@ class GenreTitleInline(admin.StackedInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    """Настройка раздела Категорий"""
+    """
+    Настройка раздела категорий.
+    """
 
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug',)
     search_fields = ('name',)
-    list_filter = ('name', 'slug')
+    list_filter = ('name', 'slug',)
 
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
-    """Настройка раздела Жанров"""
+    """
+    Настройка раздела жанров.
+    """
 
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug',)
     search_fields = ('name',)
-    list_filter = ('name', 'slug')
+    list_filter = ('name', 'slug',)
     inlines = (GenreTitleInline,)
 
 
 @admin.register(Title)
 class TitleAdmin(admin.ModelAdmin):
-    """Настройка раздела Произведений"""
+    """
+    Настройка раздела произведений.
+    """
 
     list_display = ('name', 'year', 'description', 'category',)
     search_fields = ('name',)
@@ -48,20 +54,37 @@ class TitleAdmin(admin.ModelAdmin):
     list_editable = ('category',)
     inlines = (GenreTitleInline,)
 
+    @admin.display(description='Жанр')
+    def get_genre(self, obj):
+        return ', '.join([genre.name for genre in obj.genre.all()])
+
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    """Настройка раздела Отзывов"""
+    """
+    Настройка раздела отзывов.
+    """
 
-    list_display = ('title', 'author', 'score', 'pub_date')
+    list_display = (
+        'title',
+        'author',
+        'score',
+        'pub_date',
+    )
     search_fields = ('text',)
-    list_filter = ('title', 'author', 'score', 'pub_date')
+    list_filter = ('title', 'author', 'score', 'pub_date',)
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    """Настройка раздела Комментариев"""
+    """
+    Настройка раздела комментариев.
+    """
 
-    list_display = ('review', 'author', 'pub_date')
+    list_display = (
+        'review',
+        'author',
+        'pub_date',
+    )
     search_fields = ('text',)
     list_filter = ('author', 'review', 'pub_date',)

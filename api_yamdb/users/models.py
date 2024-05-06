@@ -3,10 +3,9 @@ from django.db import models
 
 
 from users.constants import (
-    USER,
-    MODERATOR,
-    ADMIN,
-    ROLES,
+    ROLE_USER,
+    ROLE_MODERATOR,
+    ROLE_ADMIN,
     USERNAME_LENGTH,
     EMAIL_LENGTH,
     CODE_LENGTH
@@ -14,8 +13,17 @@ from users.constants import (
 from users.validators import validate_username
 
 
-class CustomUser(AbstractUser):
-    """Кастомная модель Пользователей."""
+class User(AbstractUser):
+    """
+    Кастомная модель пользователей.
+    """
+    class Role(models.TextChoices):
+        """
+        Перечисление ролей пользователя.
+        """
+        USER = ROLE_USER, 'User'
+        ADMIN = ROLE_ADMIN, 'Admin'
+        MODERATOR = ROLE_MODERATOR, 'Moderator'
 
     username = models.CharField(
         'Никнейм',
@@ -37,9 +45,9 @@ class CustomUser(AbstractUser):
     )
     role = models.CharField(
         'Роль',
-        max_length=max(len(role[0]) for role in ROLES),
-        choices=ROLES,
-        default=USER,
+        max_length=max(len(choice.value) for choice in Role),
+        choices=Role.choices,
+        default=Role.USER,
     )
     confirmation_code = models.CharField(
         'Код подтверждения',
@@ -58,14 +66,23 @@ class CustomUser(AbstractUser):
 
     @property
     def is_user(self):
-        return self.role == USER
+        """
+        Проверяет, является ли пользователь обычным пользователем.
+        """
+        return self.role == self.Role.USER
 
     @property
     def is_moderator(self):
-        """Проверяем является ли пользователь модератором"""
-        return self.role == MODERATOR
+        """
+        Проверяем является ли пользователь модератором.
+        """
+        return self.role == self.Role.MODERATOR
 
     @property
     def is_admin(self):
-        """Проверяем является ли пользователь админом или суперюзером"""
-        return self.role == ADMIN or self.is_superuser
+        """
+        Проверяет, является ли пользователь администратором.
+        """
+        return (self.role == self.Role.ADMIN
+                or self.is_superuser
+                or self.is_staff)
