@@ -86,8 +86,6 @@ class TitleViewSet(ModelViewSet):
         """
         Определяет класс сериализатора для текущего запроса.
         """
-        if self.request.method in ['PUT']:
-            raise MethodNotAllowed(self.request.method)
         if self.request.method in SAFE_METHODS:
             return GetTitleSerializer
         return TitleSerializer
