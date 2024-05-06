@@ -103,10 +103,11 @@ class Title(models.Model):
         'Название',
         max_length=TITLE_LENGTH
     )
-    year = models.PositiveSmallIntegerField(
+    year = models.SmallIntegerField(
         'Год выпуска',
         help_text='Введите год, который не превышает текущий.',
-        validators=(validate_year,)
+        validators=(validate_year,),
+        db_index=True
     )
     description = models.TextField(
         'Описание',
