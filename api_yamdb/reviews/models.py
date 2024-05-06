@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import (
     MinValueValidator,
@@ -9,13 +10,68 @@ from reviews.constants import (
     MIN_VALUE,
     MAX_VALUE,
     MESSAGE_MIN_VALUE,
-    MESSAGE_MAX_VALUE
+    MESSAGE_MAX_VALUE,
+    GENRE_LENGTH,
+    SLUG_LENGTH
 )
-from reviews.abstracts import (
-    BaseCategoryGenre,
-    BaseReviewComment
-)
+
 from reviews.validators import validate_year
+
+
+User = get_user_model()
+
+
+class BaseCategoryGenre(models.Model):
+    """
+    Базовая модель для категорий и жанров.
+    """
+
+    name = models.CharField(
+        'Название',
+        max_length=GENRE_LENGTH
+    )
+    slug = models.SlugField(
+        'Слаг',
+        max_length=SLUG_LENGTH,
+        unique=True,
+        help_text='Идентификатор страницы для URL; разрешены символы '
+                  'латиницы, цифры, дефис и подчёркивание.'
+    )
+
+    class Meta:
+        abstract = True
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name[:SYMBOLS_LENGTH]
+
+
+class BaseReviewComment(models.Model):
+    """
+    Базовая модель для отзывов и комментариев.
+    """
+
+    text = models.TextField(
+        'Текст',
+        help_text='Текст отзыва/комментария'
+    )
+    author = models.ForeignKey(
+        User,
+        verbose_name='Автор',
+        on_delete=models.CASCADE
+    )
+    pub_date = models.DateTimeField(
+        'Дата публикации',
+        help_text='Дата публикации отзыва/комментария',
+        auto_now_add=True
+    )
+
+    class Meta:
+        abstract = True
+        ordering = ('pub_date',)
+
+    def __str__(self):
+        return self.text[:SYMBOLS_LENGTH]
 
 
 class Category(BaseCategoryGenre):
