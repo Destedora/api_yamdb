@@ -9,7 +9,7 @@ from reviews.models import (
     Title
 )
 from reviews.validators import validate_year
-from reviews.constants import MESSAGE_DUPLICATE_REVIEW
+from reviews.constants import MESSAGE_DUPLICATE_REVIEW, MIN_VALUE, MAX_VALUE
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         lookup_field = 'slug'
-        fields = ('name', 'slug')
+        exclude = ('id',)
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
         lookup_field = 'slug'
-        fields = ('name', 'slug')
+        exclude = ('id',)
 
 
 class GetTitleSerializer(serializers.ModelSerializer):
@@ -106,6 +106,10 @@ class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True
+    )
+    score = serializers.IntegerField(
+        min_value=MIN_VALUE,
+        max_value=MAX_VALUE
     )
 
     class Meta:
