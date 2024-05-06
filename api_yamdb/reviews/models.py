@@ -103,10 +103,11 @@ class Title(models.Model):
         'Название',
         max_length=TITLE_LENGTH
     )
-    year = models.PositiveSmallIntegerField(
+    year = models.SmallIntegerField(
         'Год выпуска',
         help_text='Введите год, который не превышает текущий.',
-        validators=(validate_year,)
+        validators=(validate_year,),
+        db_index=True
     )
     description = models.TextField(
         'Описание',
@@ -120,8 +121,7 @@ class Title(models.Model):
     )
     genre = models.ManyToManyField(
         Genre,
-        verbose_name='Жанр',
-        through='GenreTitle'
+        verbose_name='Жанр'
     )
 
     class Meta:
@@ -132,35 +132,6 @@ class Title(models.Model):
 
     def __str__(self):
         return self.name[:SYMBOLS_LENGTH]
-
-
-class GenreTitle(models.Model):
-    """
-    Модель для связи id произведений и жанров.
-    """
-
-    genre = models.ForeignKey(
-        Genre,
-        verbose_name='Жанр',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True
-    )
-    title = models.ForeignKey(
-        Title,
-        verbose_name='Произведение',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True
-    )
-
-    class Meta:
-        verbose_name = 'Связанный жанр/произведение'
-        verbose_name_plural = 'Связанные жанры/произведения'
-        ordering = ('title',)
-
-    def __str__(self):
-        return f'{self.genre} - {self.title}'
 
 
 class Review(BaseReviewComment):
@@ -177,11 +148,8 @@ class Review(BaseReviewComment):
         verbose_name='Рейтинг',
         help_text=f'Укажите рейтинг произведения '
                   f'от {MIN_VALUE} до {MAX_VALUE}',
-        validators=(
-            MinValueValidator(MIN_VALUE, message=MESSAGE_MIN_VALUE),
-            MaxValueValidator(MAX_VALUE, message=MESSAGE_MAX_VALUE)
-        )
-    )
+        validators=(MinValueValidator(MIN_VALUE, message=MESSAGE_MIN_VALUE),
+                    MaxValueValidator(MAX_VALUE, message=MESSAGE_MAX_VALUE)))
 
     class Meta(BaseReviewComment.Meta):
         verbose_name = 'Отзыв'

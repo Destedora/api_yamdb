@@ -1,22 +1,14 @@
 from django.contrib import admin
 
 from reviews.models import (
-    Category, Comment,
-    Genre, GenreTitle,
-    Review, Title
+    Category,
+    Comment,
+    Genre,
+    Review,
+    Title
 )
 
 admin.site.empty_value_display = 'Не задано'
-
-
-class GenreTitleInline(admin.StackedInline):
-    """
-    Отображение и редактирование связанных объектов
-    GenreTitle в административном интерфейсе.
-    """
-
-    model = GenreTitle
-    extra = 0
 
 
 @admin.register(Category)
@@ -39,7 +31,7 @@ class GenreAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug',)
     search_fields = ('name',)
     list_filter = ('name', 'slug',)
-    inlines = (GenreTitleInline,)
+
 
 
 @admin.register(Title)
@@ -52,7 +44,6 @@ class TitleAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('name', 'year', 'category',)
     list_editable = ('category',)
-    inlines = (GenreTitleInline,)
 
     @admin.display(description='Жанр')
     def get_genre(self, obj):
