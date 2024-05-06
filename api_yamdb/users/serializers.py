@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.shortcuts import get_object_or_404
+
+from reviews.constants import MESSAGE_BAD_CODE
 from users.models import User
 from users.constants import (
     CODE_LENGTH,
@@ -85,7 +88,15 @@ class GetTokenSerializer(serializers.Serializer):
         required=True
     )
 
+    def validate(self, data):
+        """
+        Валидация данных при получении токена.
+        """
+        user = get_object_or_404(User, username=data.get('username'))
+        if user.confirmation_code != data.get('confirmation_code'):
+            raise serializers.ValidationError(MESSAGE_BAD_CODE)
+        return data
+
     class Meta:
         model = User
         fields = ('username', 'confirmation_code')
-
