@@ -1,5 +1,8 @@
 from rest_framework import serializers
+
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.shortcuts import get_object_or_404
+
 from users.models import User
 from users.constants import (
     CODE_LENGTH,
@@ -8,6 +11,8 @@ from users.constants import (
     MESSAGE_DUPLICATE_USERNAME,
     MESSAGE_DUPLICATE_EMAIL
 )
+from reviews.constants import MESSAGE_BAD_CODE
+
 from users.validators import validate_username
 from users.utils import send_code
 
@@ -53,6 +58,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         При создании пользователя отправляет
         код на адрес электронной почты.
         """
+
         user = User.objects.create(
             username=validated_data.get('username'),
             email=validated_data.get('email')
@@ -89,3 +95,11 @@ class GetTokenSerializer(serializers.Serializer):
         model = User
         fields = ('username', 'confirmation_code')
 
+    def validate(self, data):
+        """
+        Валидация данных при получении токена.
+        """
+        user = get_object_or_404(User, username=data.get('username'))
+        if user.confirmation_code != data.get('confirmation_code'):
+            raise serializers.ValidationError(MESSAGE_BAD_CODE)
+        return data

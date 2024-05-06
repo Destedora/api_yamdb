@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 
 from rest_framework import status
 from rest_framework.filters import SearchFilter
@@ -9,7 +8,6 @@ from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.utils import send_code
 from users.permissions import IsAdmin
@@ -21,7 +19,6 @@ from users.serializers import (
 
 from reviews.constants import (
     ALLOW_METHODS,
-    MESSAGE_BAD_CODE,
     MESSAGE_NEW_CODE
 )
 
@@ -74,7 +71,6 @@ class RegistrationViewSet(CreateModelMixin, GenericViewSet):
     """
     Вьюсет для запроса на регистрацию пользователя.
     """
-
     queryset = User.objects.all()
     serializer_class = RegistrationSerializer
     permission_classes = (AllowAny,)
@@ -119,15 +115,4 @@ class GetTokenViewSet(CreateModelMixin, GenericViewSet):
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        username = serializer.validated_data.get('username')
-        code = serializer.validated_data.get('confirmation_code')
-        user = get_object_or_404(User, username=username)
-        if user.confirmation_code == code:
-            token = RefreshToken.for_user(user).access_token
-            return Response(
-                {'token': str(token)},
-                status=status.HTTP_201_CREATED)
-        return Response(
-            MESSAGE_BAD_CODE,
-            status=status.HTTP_400_BAD_REQUEST
-        )
+

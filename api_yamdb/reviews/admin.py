@@ -33,7 +33,6 @@ class GenreAdmin(admin.ModelAdmin):
     list_filter = ('name', 'slug',)
 
 
-
 @admin.register(Title)
 class TitleAdmin(admin.ModelAdmin):
     """
