@@ -89,7 +89,7 @@ class UserViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserRegistrationView(APIView):
+class RegistrationView(APIView):
     """
     Вьюсет для запроса на регистрацию пользователя.
     """
