@@ -14,8 +14,9 @@ from reviews.models import (
     Comment,
 )
 from reviews.constants import (
-    MESSAGE_DUPLICATE_USERNAME_EMAIL,
+    MESSAGE_DUPLICATE_USERNAME,
     MESSAGE_DUPLICATE_REVIEW,
+    MESSAGE_DUPLICATE_EMAIL,
     MESSAGE_BAD_CODE,
     USERNAME_LENGTH,
     EMAIL_LENGTH,
@@ -88,12 +89,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         """
         if User.objects.filter(**data):
             return data
-        if User.objects.filter(
-            username=data.get('username')
-        ).exists() or User.objects.filter(
-            email=data.get('email')
-        ).exists():
-            raise ValidationError(MESSAGE_DUPLICATE_USERNAME_EMAIL)
+        if User.objects.filter(username=data.get('username')).exists():
+            raise ValidationError(MESSAGE_DUPLICATE_USERNAME)
+        if User.objects.filter(email=data.get('email')).exists():
+            raise ValidationError(MESSAGE_DUPLICATE_EMAIL)
         return data
 
 
@@ -178,6 +177,7 @@ class GetTitleSerializer(serializers.ModelSerializer):
             'genre',
             'category'
         )
+        read_only_fields = fields
 
 
 class TitleSerializer(serializers.ModelSerializer):
