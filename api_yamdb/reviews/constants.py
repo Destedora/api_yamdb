@@ -1,3 +1,18 @@
+FORBIDDEN_USERNAME = 'me'
+MESSAGE_USERNAME = (f'Регистрация пользователя с именем '
+                    f'{FORBIDDEN_USERNAME} невозможна!')
+MESSAGE_SYMBOLS = ('Пользователь с таким именем '
+                   'содержит запрещенные символы!')
+
+
+ROLE_USER = 'user'
+ROLE_MODERATOR = 'moderator'
+ROLE_ADMIN = 'admin'
+
+USERNAME_LENGTH = 150
+EMAIL_LENGTH = 254
+CODE_LENGTH = 254
+
 GENRE_LENGTH = 256
 SLUG_LENGTH = 50
 TITLE_LENGTH = 256
@@ -22,7 +37,17 @@ COMMENTS = 'comments.csv'
 
 MESSAGE_DUPLICATE_REVIEW = ('Повторный отзыв на данное '
                             'произведение невозможен!')
-
-ALLOW_METHODS = ('get', 'post', 'patch', 'delete')
+MESSAGE_DUPLICATE_USERNAME_EMAIL = ('Пользователь с таким именем '
+                                    'или адресом электронной почты '
+                                    'уже существует.')
 MESSAGE_BAD_CODE = 'Неверный код подтверждения!'
-MESSAGE_NEW_CODE = 'Новый код отправлен!'
+
+ALLOW_METHODS = (
+    'get',
+    'post',
+    'head',
+    'options',
+    'delete',
+    'patch',
+    'trace'
+)
