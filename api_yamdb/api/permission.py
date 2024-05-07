@@ -1,7 +1,7 @@
 from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,
     BasePermission,
     SAFE_METHODS,
-    IsAuthenticatedOrReadOnly
 )
 
 

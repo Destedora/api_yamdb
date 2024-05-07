@@ -1,36 +1,38 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.views import APIView
+
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.permissions import (
-    IsAuthenticated,
     IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
     SAFE_METHODS
 )
-from rest_framework.filters import SearchFilter
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import (
-    CreateModelMixin,
     DestroyModelMixin,
+    CreateModelMixin,
     ListModelMixin
 )
 
 from .serializers import (
-    RegistrationSerializer,
-    TitleSerializer,
-    GenreSerializer,
-    CategorySerializer,
-    ReviewSerializer,
-    CommentSerializer,
     UserSerializer,
+    RegistrationSerializer,
     GetTokenSerializer,
-    GetTitleSerializer
+    CategorySerializer,
+    GenreSerializer,
+    TitleSerializer,
+    GetTitleSerializer,
+    ReviewSerializer,
+    CommentSerializer
 )
-from .permission import (
+from api.filters import TitleFilter
+from api.permission import (
     IsAdminOrReadOnly,
     IsAdminModeratorAuthor,
     IsAdmin
@@ -38,13 +40,12 @@ from .permission import (
 
 from reviews.constants import ALLOW_METHODS
 from reviews.models import (
-    Title,
+    User,
     Category,
     Genre,
-    Review,
-    User
+    Title,
+    Review
 )
-from api.filters import TitleFilter
 
 
 class UserViewSet(ModelViewSet):

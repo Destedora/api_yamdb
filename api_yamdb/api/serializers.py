@@ -1,29 +1,33 @@
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.shortcuts import get_object_or_404
 
-from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework import serializers
 
 from reviews.models import (
+    User,
     Category,
     Genre,
+    Title,
     Review,
     Comment,
-    Title,
-    User
 )
 from reviews.constants import (
-    MIN_VALUE,
-    MAX_VALUE,
+    MESSAGE_DUPLICATE_USERNAME_EMAIL,
     MESSAGE_DUPLICATE_REVIEW,
+    MESSAGE_BAD_CODE,
     USERNAME_LENGTH,
     EMAIL_LENGTH,
     CODE_LENGTH,
-    MESSAGE_DUPLICATE_USERNAME_EMAIL,
-    MESSAGE_BAD_CODE
+    MIN_VALUE,
+    MAX_VALUE
 )
-from reviews.validators import validate_year, validate_username
+from reviews.validators import (
+    validate_year,
+    validate_username
+)
+
 from api.utils import send_code
 
 
@@ -67,6 +71,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         fields = ('email', 'username')
 
     def create(self, validated_data):
+        """
+        Создает пользователя или отправляет
+        код подтверждения существующему.
+        """
         user, _ = User.objects.get_or_create(
             username=validated_data.get('username'),
             email=validated_data.get('email')
@@ -150,8 +158,14 @@ class GetTitleSerializer(serializers.ModelSerializer):
     """
 
     category = CategorySerializer(read_only=True)
-    genre = GenreSerializer(many=True, read_only=True)
-    rating = serializers.IntegerField(required=False, default=None)
+    genre = GenreSerializer(
+        many=True,
+        read_only=True
+    )
+    rating = serializers.IntegerField(
+        required=False,
+        default=None
+    )
 
     class Meta:
         model = Title

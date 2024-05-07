@@ -1,29 +1,29 @@
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import (
     MinValueValidator,
     MaxValueValidator
 )
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
-from .constants import (
-    ROLE_ADMIN,
-    ROLE_MODERATOR,
-    ROLE_USER,
-    USERNAME_LENGTH,
-    EMAIL_LENGTH,
-    CODE_LENGTH,
-    GENRE_LENGTH,
-    SLUG_LENGTH,
-    SYMBOLS_LENGTH,
-    TITLE_LENGTH,
-    MIN_VALUE,
-    MAX_VALUE,
+from reviews.constants import (
     MESSAGE_MIN_VALUE,
-    MESSAGE_MAX_VALUE
+    MESSAGE_MAX_VALUE,
+    USERNAME_LENGTH,
+    ROLE_MODERATOR,
+    SYMBOLS_LENGTH,
+    EMAIL_LENGTH,
+    GENRE_LENGTH,
+    TITLE_LENGTH,
+    CODE_LENGTH,
+    SLUG_LENGTH,
+    ROLE_ADMIN,
+    ROLE_USER,
+    MIN_VALUE,
+    MAX_VALUE
 )
 from reviews.validators import (
-    validate_year,
-    validate_username
+    validate_username,
+    validate_year
 )
 
 
