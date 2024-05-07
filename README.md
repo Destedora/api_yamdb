@@ -20,26 +20,76 @@
 
 
 ## Как запустить проект
-1. Склонируйте репозиторий:  
-``` git@github.com:Destedora/api_yamdb.git```    
-2. Установите и активируйте виртуальное окружение:  
-``` python -m venv venv ```  
-``` source env/Scripts/activate ``` 
-3. Установите зависимости из файла requirements.txt:   
-``` pip install -r requirements.txt ```
-4. Перейдите в папку api_yamdb/api_yamdb.
-5. Примените миграции:   
-``` python manage.py migrate ```
-6. Загрузите тестовые данные:  
-``` python manage.py csv_import ```
-7. Выполните команду:   
-``` python manage.py runserver ```
 
+### Клонировать репозиторий:  
+``` 
+git@github.com:Destedora/api_yamdb.git
+```    
+### Cоздать виртуальное окружение:
+
+```
+python -m venv venv
+```
+
+### Активировать виртуальное окружение:
+
+- Для Windows:
+```
+source venv/scripts/activate
+```
+- Для Linux/macOS:
+```
+source env/bin/activate
+``` 
+
+### Обновить менеджер пакетов pip:
+
+```
+python -m pip install --upgrade pip
+```
+
+### Установить зависимости из файла requirements.txt:
+
+```
+pip install -r requirements.txt
+```
+
+### Перейдите в папку api_yamdb:
+
+```
+cd api_yamdb
+```
+
+### Выполнить миграции:
+
+```
+python manage.py migrate
+```
+
+### Загрузить тестовые данные::
+
+```
+python manage.py csv_import 
+```
+
+### Запустить проект:
+
+```
+python manage.py runserver
+```
 
 ### Документация
 
 Полный перечень эндпоинтов: http://127.0.0.1:8000/redoc/
 
+## Тестирование проекта:
+- При запущенном виртуальном окружении 
+из корня проекта выполните комануду: 
+```
+pytest
+```
+- Подробная инструкция по работе с Postman-коллекцией 
+для проверки API находится в файле `/postman_collection/README.md`.
 
 ## Примеры запросов к API
 - Регистрация пользователя:  
@@ -57,7 +107,7 @@
 - Добавление комментария к отзыву:  
 ``` POST /api/v1/titles/{title_id}/reviews/{review_id}/comments/ ```
 
-### Авторы проекта
+## Авторы проекта
 
 - [Дарья Анохина](https://github.com/Destedora)
 - [Роман Абрамов](https://github.com/abramovrs)
