@@ -28,12 +28,18 @@ from reviews.models import (
 
 
 class Command(BaseCommand):
+    """
+    Команда для загрузки данных из CSV-файлов в базу данных.
+    """
+
     help = ('Загрузка данных из CSV-файлов в базу данных:'
             'python manage.py csv_import')
 
     @staticmethod
     def import_users():
-        """Импорт пользователей из CSV-файла в базу данных"""
+        """
+        Импорт пользователей из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{USERS}', 'r', encoding=UTF) as file_csv:
             objs = [
                 User(
@@ -51,7 +57,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_category():
-        """Импорт категорий из CSV-файла в базу данных"""
+        """
+        Импорт категорий из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{CATEGORY}', 'r', encoding=UTF) as file_csv:
             objs = [
                 Category(
@@ -65,7 +73,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_genre():
-        """Импорт жанров из CSV-файла в базу данных"""
+        """
+        Импорт жанров из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{GENRE}', 'r', encoding=UTF) as file_csv:
             objs = [
                 Genre(
@@ -79,7 +89,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_titles():
-        """Импорт произведений из CSV-файла в базу данных"""
+        """
+        Импорт произведений из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{TITLE}', 'r', encoding=UTF) as file_csv:
             objs = [
                 Title(
@@ -94,7 +106,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_review():
-        """Импорт отзывов из CSV-файла в базу данных"""
+        """
+        Импорт отзывов из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{REVIEW}', 'r', encoding=UTF) as file_csv:
             objs = [
                 Review(
@@ -111,7 +125,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_comments():
-        """Импорт комментариев из CSV-файла в базу данных"""
+        """
+        Импорт комментариев из CSV-файла в базу данных.
+        """
         with open(f'{PATH}{COMMENTS}', 'r', encoding=UTF) as file_csv:
             objs = [
                 Comment(
@@ -126,7 +142,9 @@ class Command(BaseCommand):
             Comment.objects.bulk_create(objs)
 
     def handle(self, *args, **options):
-        """Импорт данных из нескольких CSV-файлов в базу данных"""
+        """
+        Импорт данных из нескольких CSV-файлов в базу данных.
+        """
         try:
             self.import_users()
             self.import_category()
